@@ -20,14 +20,14 @@ COHORT_SIZES = ANALYTICS_SETTINGS.get('COHORT_SIZES', [1,7,28])
 
 class Analytic(models.Model):
     """Single timestamped event recorded  by a device."""
+    event = models.CharField(max_length=100, db_index=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, null=True, blank=True, db_index=True)
     device_id = models.CharField(max_length=100, db_index=True)
     device_uuid = UUIDField(blank=True, null=True, db_index=True)
     platform = models.CharField(max_length=20, default='iOS', db_index=True)
     device_model = models.CharField(max_length=100, null=True, blank=True)
     app_version = models.CharField(max_length=8, default='1.1', db_index=True)
-    event = models.CharField(max_length=100, db_index=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.platform == 'iOS' and not self.device_uuid:
