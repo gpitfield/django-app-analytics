@@ -13,7 +13,7 @@ setup(
     packages=[
         'analytics', 'analytics.migrations',
         'analytics.management', 'analytics.management.commands',
-        'analytics.templates'
+        'analytics.templates', 'analytics.views',
     ],
     install_requires=[
         'Django>=1.7',
