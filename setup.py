@@ -9,11 +9,11 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-app-analytics',
-    version='0.1.2',
+    version='0.1.3',
     packages=[
         'analytics', 'analytics.migrations',
         'analytics.management', 'analytics.management.commands',
-        'analytics.templates', 'analytics.views',
+        'analytics.templates', 'analytics.templates.admin', 'analytics.views',
     ],
     install_requires=[
         'Django>=1.7',
