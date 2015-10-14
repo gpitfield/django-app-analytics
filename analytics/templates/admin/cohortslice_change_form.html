@@ -1,0 +1,5 @@
+{% extends "admin/change_form.html" %}
+{% block object-tools-items %}
+    <li><a href="/admin/analytics/cohort/{{original.cohort.id}}">Cohort</a></li>
+    <li><a href="/admin/analytics/aggregatedevice/?cohort_slice={{original.id}}">Device Aggregations</a></li>
+{% endblock object-tools-items %}
