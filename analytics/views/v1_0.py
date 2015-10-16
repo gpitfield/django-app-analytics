@@ -2,7 +2,7 @@ from django.conf import settings
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from analytics.tasks import Analytic, log_analytic
 
 class AnalyticsViewSet(viewsets.ViewSet):
@@ -32,6 +32,7 @@ class AnalyticsViewSet(viewsets.ViewSet):
               required: false
     """
     queryset = Analytic.objects.none()
+    authentication_classes = ()
 
     def create(self, request, format=None):
         device_id = request.META.get('HTTP_DEVICE_ID', '')
