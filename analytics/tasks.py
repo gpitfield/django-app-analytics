@@ -9,12 +9,12 @@ from analytics.models import AnalyticsDevice, AggregateDevice
 from analytics.models import ContentSlice
 from django.conf import settings
 
-analytics_settings = settings.get('ANALYTICS_SETTINGS', {})
-use_redis = analytics_settings.get('USE_REDIS', False)
+ANALYTICS_SETTINGS = getattr(settings, 'ANALYTICS_SETTINGS', {})
+use_redis = ANALYTICS_SETTINGS.get('USE_REDIS', False)
 if use_redis == True:
-    host = analytics_settings.get('REDIS_HOST')
-    port = analytics_settings.get('REDIS_PORT')
-    db = analytics_settings.get('REDIS_DB')
+    host = ANALYTICS_SETTINGS.get('REDIS_HOST')
+    port = ANALYTICS_SETTINGS.get('REDIS_PORT')
+    db = ANALYTICS_SETTINGS.get('REDIS_DB')
     r = redis.StrictRedis(host=host, port=port, db=db)
 
 def testerino():
