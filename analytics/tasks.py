@@ -1,4 +1,5 @@
 import sys
+import json
 import datetime
 import random
 import redis
@@ -17,8 +18,6 @@ if use_redis == True:
     db = ANALYTICS_SETTINGS.get('REDIS_DB')
     r = redis.StrictRedis(host=host, port=port, db=db)
 
-def testerino():
-    print 'oh hai'
 
 def log_analytic(device_id='', event=None, platform=None, app_version=None, device_model=None, request_meta=None):
     if request_meta:
