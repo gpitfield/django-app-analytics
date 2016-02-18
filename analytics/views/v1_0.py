@@ -41,4 +41,4 @@ class AnalyticsViewSet(viewsets.ViewSet):
         app_version = request.data.get('app_version', None)
         device_model = request.data.get('device_model', None)
         log_analytic(device_id, event, platform, app_version, device_model)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_202_ACCEPTED)

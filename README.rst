@@ -26,5 +26,8 @@ Quick start
 3. Configure settings::
 
     ANALYTICS_SETTINGS = {
-        'TBD' = True,
+    	'USE_REDIS': True,
+        'REDIS_HOST': "x.y.z",
+        'REDIS_PORT': 6379,
+        'REDIS_DB': 0,
     }

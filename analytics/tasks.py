@@ -1,6 +1,7 @@
 import sys
 import datetime
 import random
+import redis
 from celery import shared_task
 from django.utils import timezone
 from analytics.models import Analytic, Cohort, CohortSlice 
@@ -8,6 +9,16 @@ from analytics.models import AnalyticsDevice, AggregateDevice
 from analytics.models import ContentSlice
 from django.conf import settings
 
+analytics_settings = settings.get('ANALYTICS_SETTINGS', {})
+use_redis = analytics_settings.get('USE_REDIS', False)
+if use_redis == True:
+    host = analytics_settings.get('REDIS_HOST')
+    port = analytics_settings.get('REDIS_PORT')
+    db = analytics_settings.get('REDIS_DB')
+    r = redis.StrictRedis(host=host, port=port, db=db)
+
+def testerino():
+    print 'oh hai'
 
 def log_analytic(device_id='', event=None, platform=None, app_version=None, device_model=None, request_meta=None):
     if request_meta:
@@ -32,18 +43,31 @@ def log_analytic(device_id='', event=None, platform=None, app_version=None, devi
 def log(device_id=None, event=None, platform=None, app_version=None, device_model=None, request_meta=None):
     if event is None:
         return
-    analytic = Analytic()
-    if device_id:
-        analytic.device_id = device_id
-    if event:
-        analytic.event = event
-    if platform:
-        analytic.platform = platform
-    if app_version:
-        analytic.app_version = app_version
-    if device_model:
-        analytic.device_model = device_model
-    analytic.save()
+    if use_redis:
+        analytic = {
+            'device_id': device_id,
+            'event': event,
+            'platform': platform,
+            'version': app_version,
+            'device_model': device_model,
+            'timestamp': timezone.now().isoformat(),
+        }
+        if platform == 'iOS':
+            analytic['uuid'] = device_id
+        r.rpush('analyticslog', json.dumps(analytic)) # queue for database write
+    else:
+        analytic = Analytic()
+        if device_id:
+            analytic.device_id = device_id
+        if event:
+            analytic.event = event
+        if platform:
+            analytic.platform = platform
+        if app_version:
+            analytic.app_version = app_version
+        if device_model:
+            analytic.device_model = device_model
+        analytic.save()
 
 @shared_task
 def summarize_slices():

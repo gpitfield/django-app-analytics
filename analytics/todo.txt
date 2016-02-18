@@ -1,2 +1,29 @@
+What are the key functions?
+	record analytic
+	create cohorts/devices
+	what about ContentSlice?
+	aggregate devices
+	aggregate cohorts
+	create reports
+
+	unique events
+	event totals
+
+	Analytic
+		user
+		deviceID
+		platform
+		event
+		timestamp
+		app_version
+
+	AnalyticsDevice (rename) -> record of device/user to associate events with
+
+	Cohort -> group of users/devices based on date first seen
+
+	CohortSlice -> aggregation of events in a cohort for a given timeframe
+
+	Backend Analytics
+
 analytics fields -> settings
 start date inferred from analytics data (?)
