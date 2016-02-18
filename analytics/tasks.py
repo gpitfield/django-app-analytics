@@ -16,6 +16,7 @@ if use_redis == True:
     host = ANALYTICS_SETTINGS.get('REDIS_HOST')
     port = ANALYTICS_SETTINGS.get('REDIS_PORT')
     db = ANALYTICS_SETTINGS.get('REDIS_DB')
+    queue = ANALYTICS_SETTINGS.get('REDIS_KEY')
     r = redis.StrictRedis(host=host, port=port, db=db)
 
 
@@ -53,7 +54,7 @@ def log(device_id=None, event=None, platform=None, app_version=None, device_mode
         }
         if platform == 'iOS':
             analytic['uuid'] = device_id
-        r.rpush('analyticslog', json.dumps(analytic)) # queue for database write
+        r.rpush(queue, json.dumps(analytic)) # queue for database write
     else:
         analytic = Analytic()
         if device_id:
