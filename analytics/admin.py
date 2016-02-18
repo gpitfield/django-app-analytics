@@ -7,6 +7,7 @@ class AnalyticsAdmin(admin.ModelAdmin):
 	list_display = ['event', 'timestamp', 'device_model', 
 		'platform', 'app_version', 'device_id',
 	]
+	raw_id_fields = ['user']
 	list_filter = ['event', 'platform', 'app_version']
 	change_form_template = 'admin/analytics_change_form.html'
 
